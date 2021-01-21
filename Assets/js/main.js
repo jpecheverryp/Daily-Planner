@@ -76,11 +76,13 @@ function getSuffix(dayNumber) {
     return 'th';
 }
 
+// Assigns every number that will be used on the date
 var weekday = getWeekDay(currentTime.weekday)
 var month = getMonth(currentTime.month);
 var day = currentTime.day;
 var suffix = getSuffix(currentTime.day);
 
+// Displays current date on the screen
 $('#currentDay').text(`${weekday}, ${month} ${day}${suffix}`);
 
 //------------- Time Blocks Generator -----------
@@ -94,13 +96,13 @@ function createRow(hour) {
     row.attr('data-hour', hour)
     $('.container').append(row);
 
-    if(hour < 12) {
+    if (hour < 12) {
         var amPm = ' AM';
     } else {
         var amPm = ' PM';
     }
 
-    if (amPm === ' PM' && hour !== 12){
+    if (amPm === ' PM' && hour !== 12) {
         displayHour = hour - 12;
     }
 
@@ -117,11 +119,18 @@ function createRow(hour) {
     btn.append('<i class="fas fa-save saveBtn"></i>');
     btn.addClass('saveBtn col-2');
     row.append(btn);
+
+    btn.on('click', function () {
+        var parentRow = $(this).parent();
+        var hourClicked = 'hour-' + parentRow.data('hour');
+        var task = parentRow.children('textarea').val();
+        localStorage.setItem(hourClicked, task);
+    })
+
 }
 
 
-
-[9, 10, 11, 12, 13, 14, 15, 16, 17].forEach(hour => createRow(hour));
+[9, 10, 11, 12, 13, 14, 15, 16, 17,18, 19, 20 , 21, 22, 23].forEach(hour => createRow(hour));
 
 
 // Color Code My Textareas
@@ -129,11 +138,26 @@ $('.row').each(function () {
     var divHour = $(this).data('hour');
     var currentHour = currentTime.hour;
 
-    if(currentHour > divHour) {
+    if (currentHour > divHour) {
         $(this).children('textarea').addClass('past');
     } else if (currentHour < divHour) {
         $(this).children('textarea').addClass('future');
     } else {
         $(this).children('textarea').addClass('present')
+    }
+})
+
+// Retrieve Tasks from local Storage
+// Do the same to each row
+$('.row').each(function () {
+    // Get the hour of the row using data-hour attribute
+    var divHour = 'hour-' + $(this).data('hour');
+    // get the text of the task from the local storage
+    var taskInfo = localStorage.getItem(divHour);
+    // If the task does not exist it will return null (we check if it does exist)
+    if (taskInfo !== null) {
+        // We set the value 
+        $(this).children('textarea').val(taskInfo);
+        console.log(localStorage.getItem(divHour));
     }
 })
