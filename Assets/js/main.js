@@ -1,7 +1,6 @@
 // Import the luxon Datetime object as Datetime 
 var DateTime = luxon.DateTime;
-var currentTime = DateTime.local()
-console.log(currentTime);
+var currentTime = DateTime.local();
 
 // Function that takes a weekday number and returns the name of the day
 // Starts with 1 = Monday, and Sunday as a 7
@@ -114,10 +113,10 @@ function createRow(hour) {
     writingArea.addClass('col-8');
     row.append(writingArea);
 
-    var btn = $('<button>');
-    btn.text('Save')
-    btn.addClass('saveBtn col-2')
-    row.append(btn)
+    var btn = $('<div>');
+    btn.append('<i class="fas fa-save saveBtn"></i>');
+    btn.addClass('saveBtn col-2');
+    row.append(btn);
 }
 
 
