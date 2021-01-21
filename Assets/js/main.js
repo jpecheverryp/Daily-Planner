@@ -88,48 +88,60 @@ $('#currentDay').text(`${weekday}, ${month} ${day}${suffix}`);
 //------------- Time Blocks Generator -----------
 
 function createRow(hour) {
-
+    // Text that will be displayed on the screen
     var displayHour = hour;
 
+    // Creates the row 
     var row = $('<div>');
     row.addClass('row');
+    // Assigns the data-hour attribute to the row using the current hour
     row.attr('data-hour', hour)
     $('.container').append(row);
 
+    // Checks if the current hour is before or after 12 and assigns Am or PM to it
     if (hour < 12) {
         var amPm = ' AM';
     } else {
         var amPm = ' PM';
     }
 
-    if (amPm === ' PM' && hour !== 12) {
+    // Changes display hour to 12 hour format
+    if (hour > 13) {
         displayHour = hour - 12;
     }
 
+    // Creates the Hour container
     var hourContainer = $('<div>');
     hourContainer.addClass('hour col-2');
     hourContainer.text(displayHour + amPm);
     row.append(hourContainer);
 
+    // Creates the writing area 
     var writingArea = $('<textarea>');
     writingArea.addClass('col-8');
     row.append(writingArea);
 
+    // creates the button
     var btn = $('<div>');
     btn.append('<i class="fas fa-save saveBtn"></i>');
     btn.addClass('saveBtn col-2');
     row.append(btn);
 
+    // Event listener to save to local Storage
     btn.on('click', function () {
+        // Selects the whole row where the button is located
         var parentRow = $(this).parent();
+        // Selects hour from data-attribute
         var hourClicked = 'hour-' + parentRow.data('hour');
+        // Selects the text inside of the textarea
         var task = parentRow.children('textarea').val();
+        // Sets the item on local storage with the hour and the task included
         localStorage.setItem(hourClicked, task);
     })
 
 }
 
-
+// Creates rows using arrays with hours (24-hour format)
 [9, 10, 11, 12, 13, 14, 15, 16, 17,18, 19, 20 , 21, 22, 23].forEach(hour => createRow(hour));
 
 
