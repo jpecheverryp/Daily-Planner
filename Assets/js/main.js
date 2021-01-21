@@ -1,6 +1,7 @@
 // Import the luxon Datetime object as Datetime 
 var DateTime = luxon.DateTime;
-console.log(DateTime.local());
+var currentTime = DateTime.local()
+console.log(currentTime);
 
 // Function that takes a weekday number and returns the name of the day
 // Starts with 1 = Monday, and Sunday as a 7
@@ -76,10 +77,10 @@ function getSuffix(dayNumber) {
     return 'th';
 }
 
-var weekday = getWeekDay(DateTime.local().weekday)
-var month = getMonth(DateTime.local().month);
-var day = DateTime.local().day;
-var suffix = getSuffix(DateTime.local().day);
+var weekday = getWeekDay(currentTime.weekday)
+var month = getMonth(currentTime.month);
+var day = currentTime.day;
+var suffix = getSuffix(currentTime.day);
 
 $('#currentDay').text(`${weekday}, ${month} ${day}${suffix}`);
 
@@ -119,4 +120,21 @@ function createRow(hour) {
     row.append(btn)
 }
 
-[9, 10, 11, 12, 13, 14, 15, 16, 17].forEach(hour => createRow(hour))
+
+
+[9, 10, 11, 12, 13, 14, 15, 16, 17].forEach(hour => createRow(hour));
+
+
+// Color Code My Textareas
+$('.row').each(function () {
+    var divHour = $(this).data('hour');
+    var currentHour = currentTime.hour;
+
+    if(currentHour > divHour) {
+        $(this).children('textarea').addClass('past');
+    } else if (currentHour < divHour) {
+        $(this).children('textarea').addClass('future');
+    } else {
+        $(this).children('textarea').addClass('present')
+    }
+})
