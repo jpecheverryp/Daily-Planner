@@ -2,6 +2,8 @@
 var DateTime = luxon.DateTime;
 console.log(DateTime.local());
 
+// Function that takes a weekday number and returns the name of the day
+// Starts with 1 = Monday, and Sunday as a 7
 function getWeekDay(weekDayNumber) {
     switch (weekDayNumber) {
         case 1:
@@ -22,7 +24,8 @@ function getWeekDay(weekDayNumber) {
             break;
     }
 }
-
+// Starts with 1 as January
+// Returns the name of the month using the number of it
 function getMonth(monthNumber) {
     switch (monthNumber) {
         case 1:
@@ -54,8 +57,11 @@ function getMonth(monthNumber) {
     }
 }
 
+// Returns the suffix of the day
 function getSuffix(dayNumber) {
+    // Last number is used to identify the last digit of a number
     var lastNumber = dayNumber % 10;
+    // Exceptions is used to assign th to 11, 12 and 13
     var exceptions = dayNumber % 100;
 
     if (lastNumber === 1 && exceptions !== 11) {
@@ -76,3 +82,34 @@ var day = DateTime.local().day;
 var suffix = getSuffix(DateTime.local().day);
 
 $('#currentDay').text(`${weekday}, ${month} ${day}${suffix}`);
+
+//------------- Time Blocks Generator -----------
+
+function createRow(hour) {
+    var row = $('<div>');
+    row.addClass('row');
+    row.attr('data-hour', hour)
+    $('.container').append(row);
+
+    if(hour < 12) {
+        var amPm = ' AM';
+    } else {
+        var amPm = ' PM';
+    }
+
+    var hourContainer = $('<div>');
+    hourContainer.addClass('hour col-2');
+    hourContainer.text(hour + amPm);
+    row.append(hourContainer);
+
+    var writingArea = $('<textarea>');
+    writingArea.addClass('col-8');
+    row.append(writingArea);
+
+    var btn = $('<button>');
+    btn.text('Save')
+    btn.addClass('saveBtn col-2')
+    row.append(btn)
+}
+
+[9, 10, 11, 12, 13, 14, 15, 16, 17].forEach(hour => createRow(hour))
