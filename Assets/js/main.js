@@ -86,6 +86,9 @@ $('#currentDay').text(`${weekday}, ${month} ${day}${suffix}`);
 //------------- Time Blocks Generator -----------
 
 function createRow(hour) {
+
+    var displayHour = hour;
+
     var row = $('<div>');
     row.addClass('row');
     row.attr('data-hour', hour)
@@ -97,9 +100,13 @@ function createRow(hour) {
         var amPm = ' PM';
     }
 
+    if (amPm === ' PM' && hour !== 12){
+        displayHour = hour - 12;
+    }
+
     var hourContainer = $('<div>');
     hourContainer.addClass('hour col-2');
-    hourContainer.text(hour + amPm);
+    hourContainer.text(displayHour + amPm);
     row.append(hourContainer);
 
     var writingArea = $('<textarea>');
