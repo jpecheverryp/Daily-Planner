@@ -15,4 +15,4 @@ This is an app that can be used to save tasks to certain times, this can be very
 
 ## Mock-up
 
-![Mock-Up](assets/images/daily-planner-mockup.png)
+![Mock-Up](Assets/images/daily-planner-mockup.png)
